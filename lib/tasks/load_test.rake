@@ -7,17 +7,16 @@ unless Rails.env.production? # ~> NameError: uninitialized constant Rails
 
     # 1.times.map { Thread.new { browse } }.map(&:join)
     loop do
-      # anonymous_user_browses_lenders
-      # anonymous_user_browses_pages_of_lenders
-      # anonymous_user_browses_individual_loan_request
-      # user_browses_loan_requests
-      # user_browses_individual_loan_requests
-      # new_user_can_sign_up_as_lender
-
+      anonymous_user_browses_lenders
+      anonymous_user_browses_pages_of_lenders
+      anonymous_user_browses_individual_loan_request
+      user_browses_loan_requests
+      user_browses_individual_loan_requests
+      new_user_can_sign_up_as_lender
       new_user_can_sign_up_as_borrower
-      # browse_articles_with_comments
-      # browse_most_popular_article
-      # leave_comments
+      new_user_create_a_loan_request
+      new_user_funds_a_loan
+      
     end
 
   end
@@ -88,8 +87,6 @@ unless Rails.env.production? # ~> NameError: uninitialized constant Rails
     session.click_link("Lend")
     sleep 2
     session.all("div.pagination a").sample.click
-
-    # sleep 1
     session.all("a", text: "About").sample.click
     puts "user browses individual loan requests"
   end
@@ -139,14 +136,38 @@ unless Rails.env.production? # ~> NameError: uninitialized constant Rails
     session.fill_in "Title", with: "New Loan"
     session.fill_in "Description", with: "Give me money"
     session.fill_in "Image url", with: ""
-    session.select '2015/10/01', from: "Requested by date"
-    session.select '2015/12/01', from: "Repayment begin date"
+    session.fill_in "Requested by date", with: '2015/10/01'
+    session.fill_in "Repayment begin date", with: '2015/12/01'
     session.select 'Monthly', from: "Repayment rate"
     session.select 'Agriculture', from: "Category"
     session.fill_in "Amount", with: 10000
-    click_button "Submit"
+    session.click_button "Submit"
+    session.all("a", text: "Details").first.click
 
-    puts "new user create loan request"
+    puts "new user creates loan request"
+  end
+
+  def new_user_funds_a_loan
+    session = Capybara::Session.new(:poltergeist)
+
+    session.visit("https://scale-up-performance.herokuapp.com/")
+    session.all("a", text: "Sign Up").first.click
+    session.click_link("Sign Up As Lender")
+    session.fill_in "Name", with: "test"
+    session.fill_in "Email", with: "test@test#{rand(1..10000)}.com"
+    session.fill_in "Password", with: "password"
+    session.fill_in "Confirm Password", with: "password"
+    session.click_button "Create Account"
+
+    session.click_link("Lend")
+    sleep 2
+    session.all("div.pagination a").sample.click
+    session.all("a", text: "Contribute #$25").sample.click
+    session.click_link("Basket")
+    session.click_on("Transfer Funds")
+
+
+    puts "new user funds a loan"
   end
 end
 
