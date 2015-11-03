@@ -16,7 +16,7 @@ gem "bootstrap_form"
 gem "font-awesome-rails"
 gem "therubyracer"
 gem "less-rails"
-gem "twitter-bootstrap-rails"
+gem "bootstrap-sass"
 gem "faker"
 gem "responders"
 gem "traceroute"
@@ -24,6 +24,7 @@ gem "rails_12factor", group: :production
 gem "populator"
 gem 'newrelic_rpm'
 gem 'will_paginate'
+gem 'bullet'
 
 group :development, :test do
   gem "pry-rails"

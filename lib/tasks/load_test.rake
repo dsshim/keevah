@@ -24,7 +24,7 @@ unless Rails.env.production? # ~> NameError: uninitialized constant Rails
 
     session.visit("https://whispering-castle-6748.herokuapp.com/")
     session.click_link("Lend")
-    # session.all("li a").first.click
+    session.all("p.lr-about a").sample.click
     puts "browses all lenders"
 
   end
