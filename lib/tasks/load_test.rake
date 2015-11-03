@@ -5,59 +5,148 @@ unless Rails.env.production? # ~> NameError: uninitialized constant Rails
   desc "Simulate load against Blogger application"
   task :load_test => :environment do
 
-    # 2.times.map { Thread.new { browse } }.map(&:join)
-
-    browse
-  end
-
-  def browse
+    # 1.times.map { Thread.new { browse } }.map(&:join)
     loop do
-      anonymous_user_browses_lenders
+      # anonymous_user_browses_lenders
+      # anonymous_user_browses_pages_of_lenders
+      # anonymous_user_browses_individual_loan_request
+      # user_browses_loan_requests
+      # user_browses_individual_loan_requests
+      # new_user_can_sign_up_as_lender
+
+      new_user_can_sign_up_as_borrower
       # browse_articles_with_comments
       # browse_most_popular_article
       # leave_comments
     end
+
+  end
+
+  def browse
+    # loop do
+    #   anonymous_user_browses_lenders
+    #   anonymous_user_browses_lenders_on_multiple_pages
+    #   # browse_articles_with_comments
+    #   # browse_most_popular_article
+    #   # leave_comments
+    # end
   end
 
   def anonymous_user_browses_lenders
     session = Capybara::Session.new(:poltergeist)
 
-    session.visit("https://whispering-castle-6748.herokuapp.com/")
+    session.visit("https://scale-up-performance.herokuapp.com/browse")
     session.click_link("Lend")
-    session.all("p.lr-about a").sample.click
+
     puts "browses all lenders"
 
   end
 
-  def browse_articles_with_comments
+  def anonymous_user_browses_pages_of_lenders
     session = Capybara::Session.new(:poltergeist)
 
-    session.visit("https://whispering-castle-6748.herokuapp.com/")
-    session.all("li.comment a").sample.click
-    puts "browse article w/comments"
+    session.visit("https://scale-up-performance.herokuapp.com/browse")
+
+    session.all("div.pagination a").sample.click
+    puts "browses all lenders on multiple pages"
 
   end
 
-  def browse_most_popular_article
+  def anonymous_user_browses_individual_loan_request
     session = Capybara::Session.new(:poltergeist)
 
-    session.visit("https://whispering-castle-6748.herokuapp.com/")
-    session.all("li#most_popular a").first.click
-    puts "pop article"
+    session.visit("https://scale-up-performance.herokuapp.com/browse")
+    session.all("a", text: "About").sample.click
+    puts "browses individual loan request"
 
   end
 
-  def leave_comments
+  def user_browses_loan_requests
     session = Capybara::Session.new(:poltergeist)
 
-    session.visit("https://whispering-castle-6748.herokuapp.com/")
-    session.all("li.article a").sample.click
-    session.fill_in("Author name", with: "Dave")
-    session.fill_in("Body", with:"Comment")
-    session.click_button("Save")
-    puts "leave comments"
+    session.visit("https://scale-up-performance.herokuapp.com/")
 
+    session.click_link("Login")
+    session.fill_in "Email", with: "test@test.com"
+    session.fill_in "Password", with: "password"
+    session.click_button("Log In")
+    session.click_link("Lend")
+    sleep 2
+    session.all("div.pagination a").sample.click
+    puts "user browses loan requests"
+  end
 
+  def user_browses_individual_loan_requests
+    session = Capybara::Session.new(:poltergeist)
+
+    session.visit("https://scale-up-performance.herokuapp.com/")
+
+    session.click_link("Login")
+    session.fill_in "Email", with: "test@test.com"
+    session.fill_in "Password", with: "password"
+    session.click_button("Log In")
+    session.click_link("Lend")
+    sleep 2
+    session.all("div.pagination a").sample.click
+
+    # sleep 1
+    session.all("a", text: "About").sample.click
+    puts "user browses individual loan requests"
+  end
+
+  def new_user_can_sign_up_as_lender
+    session = Capybara::Session.new(:poltergeist)
+
+    session.visit("https://scale-up-performance.herokuapp.com/")
+    session.all("a", text: "Sign Up").first.click
+    session.click_link("Sign Up As Lender")
+    session.fill_in "Name", with: "test"
+    session.fill_in "Email", with: "test@test#{rand(1..10000)}.com"
+    session.fill_in "Password", with: "password"
+    session.fill_in "Confirm Password", with: "password"
+    session.click_button "Create Account"
+    session.click_link("Portfolio")
+    puts "new user can sign up as a lender"
+  end
+
+  def new_user_can_sign_up_as_borrower
+    session = Capybara::Session.new(:poltergeist)
+
+    session.visit("https://scale-up-performance.herokuapp.com/")
+    session.all("a", text: "Sign Up").first.click
+    session.click_link("Sign Up As Borrower")
+    session.fill_in "Name", with: "test"
+    session.fill_in "Email", with: "test@test#{rand(1..10000)}.com"
+    session.fill_in "Password", with: "password"
+    session.fill_in "Confirm Password", with: "password"
+    session.click_button "Create Account"
+    session.click_link("Create Loan Request")
+    puts "new user can sign up as a borrower"
+  end
+
+  def new_user_create_a_loan_request
+    session = Capybara::Session.new(:poltergeist)
+
+    session.visit("https://scale-up-performance.herokuapp.com/")
+    session.all("a", text: "Sign Up").first.click
+    session.click_link("Sign Up As Borrower")
+    session.fill_in "Name", with: "test"
+    session.fill_in "Email", with: "test@test#{rand(1..10000)}.com"
+    session.fill_in "Password", with: "password"
+    session.fill_in "Confirm Password", with: "password"
+    session.click_button "Create Account"
+    session.click_link("Create Loan Request")
+    session.fill_in "Title", with: "New Loan"
+    session.fill_in "Description", with: "Give me money"
+    session.fill_in "Image url", with: ""
+    session.select '2015/10/01', from: "Requested by date"
+    session.select '2015/12/01', from: "Repayment begin date"
+    session.select 'Monthly', from: "Repayment rate"
+    session.select 'Agriculture', from: "Category"
+    session.fill_in "Amount", with: 10000
+    click_button "Submit"
+
+    puts "new user create loan request"
   end
 end
 

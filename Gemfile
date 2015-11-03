@@ -27,6 +27,8 @@ gem 'will_paginate'
 gem 'bullet'
 
 group :development, :test do
+  gem "ruby-growl"
+  gem "xmpp4r"
   gem "pry-rails"
   gem "awesome_print"
   gem "web-console", "~> 2.0"
