@@ -16,7 +16,7 @@ gem "bootstrap_form"
 gem "font-awesome-rails"
 gem "therubyracer"
 gem "less-rails"
-gem "bootstrap-sass"
+gem "twitter-bootstrap-rails"
 gem "faker"
 gem "responders"
 gem "traceroute"
@@ -27,7 +27,7 @@ gem 'will_paginate'
 gem 'bullet'
 
 group :development, :test do
-  gem "pry"
+  gem "pry-rails"
   gem "awesome_print"
   gem "web-console", "~> 2.0"
   gem "rspec-rails"
