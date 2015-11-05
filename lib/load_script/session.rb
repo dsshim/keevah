@@ -13,7 +13,7 @@ module LoadScript
     def initialize(host = nil)
 
       Capybara.default_driver = :poltergeist
-      @host = host || "http://scale-up-performance.herokuapp.com"
+      @host = host || "http://localhost:3000"
     end
 
     def logger
