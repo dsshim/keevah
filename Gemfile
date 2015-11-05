@@ -24,10 +24,11 @@ gem "rails_12factor", group: :production
 gem "populator"
 gem 'newrelic_rpm'
 gem 'will_paginate'
-gem 'bullet'
+
 gem 'dalli'
 
 group :development, :test do
+  gem 'bullet'
   gem "ruby-growl"
   gem "xmpp4r"
   gem "pry-rails"
