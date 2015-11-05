@@ -1,5 +1,6 @@
 class LendersController < ApplicationController
-  before_action :set_lender && :set_projects, only: [:show]
+  before_action :set_lender, only: [:show]
+  before_action :set_projects, only: [:show]
 
   def new
     @user = User.new

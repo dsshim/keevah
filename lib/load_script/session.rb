@@ -5,7 +5,6 @@ require 'capybara/poltergeist'
 require "faker"
 require "active_support"
 require "active_support/core_ext"
-require 'launchy'
 
 module LoadScript
   class Session
@@ -22,7 +21,7 @@ module LoadScript
     end
 
     def session
-      @session ||= Capybara::Session.new(:poltergeist, js_errors: false)
+      @session ||= Capybara::Session.new(:poltergeist)
     end
 
     def run
@@ -52,7 +51,7 @@ module LoadScript
     end
 
     def actions
-      [:browse_loan_requests, :sign_up_as_lender, :anonymous_user_browses_pages_of_lenders, :anonymous_user_browses_pages_of_lenders, :user_browses_loan_requests, :user_browses_individual_loan_requests, :sign_up_as_borrower, :new_user_create_a_loan_request, :new_user_funds_a_loan, :user_can_browse_all_categories, :user_can_browse_individual_categories]
+      [:browse_loan_requests, :sign_up_as_lender, :anonymous_user_browses_pages_of_lenders, :user_browses_loan_requests, :user_browses_individual_loan_requests, :sign_up_as_borrower, :new_user_create_a_loan_request, :new_user_funds_a_loan, :user_can_browse_all_categories, :user_can_browse_individual_categories]
     end
 
     def log_in(email="demo+horace@jumpstartlab.com", pw="password")
