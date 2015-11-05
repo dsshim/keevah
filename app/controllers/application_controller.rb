@@ -2,18 +2,18 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :null_session
   before_action :create_cart
 
-  unless Rails.application.config.consider_all_requests_local
-    rescue_from ActiveRecord::RecordNotFound,
-                ActionController::RoutingError,
-                ActionController::UnknownController,
-                # ActionController::UnknownAction,
-                ActionController::MethodNotAllowed do |exception|
-
-
-
-      redirect_to "/500"
-    end
-  end
+  # unless Rails.application.config.consider_all_requests_local
+  #   rescue_from ActiveRecord::RecordNotFound,
+  #               ActionController::RoutingError,
+  #               ActionController::UnknownController,
+  #               # ActionController::UnknownAction,
+  #               ActionController::MethodNotAllowed do |exception|
+  #
+  #
+  # 
+  #     redirect_to "/500"
+  #   end
+  # end
 
 
   def create_cart

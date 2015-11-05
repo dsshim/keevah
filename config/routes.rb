@@ -36,7 +36,7 @@ Rails.application.routes.draw do
   get "/422", to: "errors#server_error"
   get "/500", to: "errors#server_error"
 
-  get "*path", to: "errors#show", code: 404
+  get "*path", to: "errors#not_found", code: 404
 
 
 end
