@@ -26,12 +26,11 @@ module LoadScript
 
     def run
       while true
-        begin
+        # begin
         run_action(actions.sample)
-      rescue
-        puts "heroku error"
-        retry while true
-      end
+        # rescue
+        # puts "heroku error"
+        # retry while true
       end
     end
 
@@ -196,6 +195,7 @@ module LoadScript
       session.visit "#{host}/categories/#{rand(1..15)}"
       session.all(".lr-about").sample.click
       puts "user can browse individual categories"
+
     end
   end
 end

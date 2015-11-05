@@ -1,7 +1,7 @@
 class LoanRequest < ActiveRecord::Base
   validates :title, :description, :amount,
-    :requested_by_date, :repayment_begin_date,
-    :repayment_rate, :contributed, presence: true
+  :requested_by_date, :repayment_begin_date,
+  :repayment_rate, :contributed, presence: true
   has_many :orders
   has_many :loan_requests_contributors
   has_many :users, through: :loan_requests_contributors
@@ -84,4 +84,16 @@ class LoanRequest < ActiveRecord::Base
     LoanRequest.all.joins(:categories).where(categories: {id: self.categories.first.id}).limit(1000).shuffle.take(4)
     # (categories.flat_map(&:loan_requests) - [self]).shuffle.take(4)
   end
+
+  def self.cached_requests
+    Rails.cache.fetch("all_requests") do
+      LoanRequest.all
+    end
+  end
+
+  # def self.cached_single_category(id)
+  #   Rails.cache.fetch("single_category") do
+  #     joins(:categories).where(categories: {id: id})
+  #   end
+  # end
 end

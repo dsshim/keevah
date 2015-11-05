@@ -25,6 +25,7 @@ gem "populator"
 gem 'newrelic_rpm'
 gem 'will_paginate'
 gem 'bullet'
+gem 'dalli'
 
 group :development, :test do
   gem "ruby-growl"

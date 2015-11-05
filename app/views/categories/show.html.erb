@@ -1,9 +1,12 @@
 <div class="page-header">
+
   <h1> <%= @category.title %></h1>
 </div>
 
 <div class="container">
   <div class="row">
-    <%= render "shared/lender_thumbnail" %>
-</div>
+    <%= render partial: "shared/loan_request" %>
+  </div>
+  
+<%= will_paginate @loan_requests %>
 </div>
