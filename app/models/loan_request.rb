@@ -81,8 +81,8 @@ class LoanRequest < ActiveRecord::Base
   end
 
   def related_projects
-    LoanRequest.all.joins(:categories).where(categories: {id: self.categories.first.id}).limit(1000).shuffle.take(4)
-    # (categories.flat_map(&:loan_requests) - [self]).shuffle.take(4)
+    cat = LoanRequest.find(self.id).categories
+    LoanRequest.all.joins(:categories).where(categories: {id: cat.sample.id}).limit(1000).shuffle.take(4)
   end
 
   def self.cached_requests
