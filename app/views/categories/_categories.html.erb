@@ -1,0 +1,20 @@
+<div class="container">
+  <div class="row">
+    <% @categories.each do |category| %>
+      <div class="col-sm-6 col-md-4 col-lg-4 loan-request">
+      <div class="thumbnail">
+        <div class="caption">
+          <div class="thumbnail-label">
+            <h3><%= link_to category.title, category_path(category), class: "category" %></h3>
+          </div>
+          <p><%= category.description %></p>
+          <p>
+
+          <br>
+
+        </div>
+      </div>
+    </div>
+  <% end %>
+  </div>
+</div>

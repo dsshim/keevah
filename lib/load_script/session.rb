@@ -5,6 +5,7 @@ require 'capybara/poltergeist'
 require "faker"
 require "active_support"
 require "active_support/core_ext"
+require 'launchy'
 
 module LoadScript
   class Session
@@ -25,7 +26,12 @@ module LoadScript
 
     def run
       while true
+        begin
         run_action(actions.sample)
+      rescue
+        puts "heroku error"
+        retry while true
+      end
       end
     end
 
@@ -46,21 +52,22 @@ module LoadScript
     end
 
     def actions
-      [:browse_loan_requests, :sign_up_as_lender]
+      [:browse_loan_requests, :sign_up_as_lender, :anonymous_user_browses_pages_of_lenders, :anonymous_user_browses_pages_of_lenders, :user_browses_loan_requests, :user_browses_individual_loan_requests, :sign_up_as_borrower, :new_user_create_a_loan_request, :new_user_funds_a_loan, :user_can_browse_all_categories, :user_can_browse_individual_categories]
     end
 
     def log_in(email="demo+horace@jumpstartlab.com", pw="password")
       log_out
       session.visit host
-      session.click_link("Log In")
-      session.fill_in("email_address", with: email)
-      session.fill_in("password", with: pw)
-      session.click_link_or_button("Login")
+      session.click_link("Login")
+      session.fill_in("Email", with: email)
+      session.fill_in("Password", with: pw)
+      session.click_link_or_button("Log In")
     end
 
     def browse_loan_requests
       session.visit "#{host}/browse"
       session.all(".lr-about").sample.click
+      puts "browse loan requests"
     end
 
     def log_out
@@ -88,11 +95,107 @@ module LoadScript
         session.fill_in("user_password", with: "password")
         session.fill_in("user_password_confirmation", with: "password")
         session.click_link_or_button "Create Account"
+        puts "sign up as lender"
       end
     end
 
+    def sign_up_as_borrower(name = new_user_name)
+      log_out
+      session.find("#sign-up-dropdown").click
+      session.find("#sign-up-as-borrower").click
+      session.within("#borrowerSignUpModal") do
+        session.fill_in("user_name", with: name)
+        session.fill_in("user_email", with: new_user_email(name))
+        session.fill_in("user_password", with: "password")
+        session.fill_in("user_password_confirmation", with: "password")
+        session.click_link_or_button "Create Account"
+        puts "sign up as borrower"
+      end
+    end
+
+
     def categories
       ["Agriculture", "Education", "Community"]
+    end
+
+    def anonymous_user_browses_pages_of_lenders
+
+      session.visit("#{host}/browse")
+
+      session.all("div.pagination a").sample.click
+      puts "browses all lenders on multiple pages"
+
+    end
+
+    def anonymous_user_browses_individual_loan_request
+
+      session.visit("#{host}/browse")
+      session.all("a", text: "About").sample.click
+      puts "browses individual loan request"
+
+    end
+
+    def user_browses_loan_requests
+      log_in
+      session.visit "#{host}/browse"
+
+      session.all("div.pagination a").sample.click
+      puts "user browses loan requests"
+    end
+
+    def user_browses_individual_loan_requests
+
+
+      log_in
+
+      session.visit "#{host}/browse"
+
+      session.all("div.pagination a").sample.click
+      session.all("a", text: "About").sample.click
+      puts "user browses individual loan requests"
+    end
+
+    def new_user_create_a_loan_request
+      sign_up_as_borrower
+      session.click_link("Create Loan Request")
+      session.fill_in "Title", with: "New Loan"
+      session.fill_in "Description", with: "Give me money"
+      session.fill_in "Image url", with: ""
+      session.fill_in "Requested by date", with: '2015/10/01'
+      session.fill_in "Repayment begin date", with: '2015/12/01'
+      session.select 'Monthly', from: "Repayment rate"
+      session.select 'Agriculture', from: "Category"
+      session.fill_in "Amount", with: 10000
+      session.click_button "Submit"
+      session.all("a", text: "Details").first.click
+
+      puts "new user creates loan request"
+    end
+
+    def new_user_funds_a_loan
+      sign_up_as_lender
+      session.visit "#{host}/browse"
+      session.all("div.pagination a").sample.click
+      session.all("a", text: "Contribute #$25").sample.click
+      session.all("a", text: "Contribute #$25").sample.click
+      session.click_link("Basket")
+      session.click_on("Transfer Funds")
+
+
+      puts "new user funds a loan"
+    end
+
+    def user_can_browse_all_categories
+      log_in
+      session.visit "#{host}/categories"
+      puts "user can browse all categories"
+    end
+
+    def user_can_browse_individual_categories
+      log_in
+      session.visit "#{host}/categories/#{rand(1..15)}"
+      session.all(".lr-about").sample.click
+      puts "user can browse individual categories"
     end
   end
 end

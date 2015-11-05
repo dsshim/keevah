@@ -24,6 +24,8 @@ Rails.application.routes.draw do
 
   resources :lenders
 
+  resources :categories, only: [:index, :show]
+
   resources :borrowers
 
   resources :users, only: [:show]

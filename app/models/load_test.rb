@@ -4,7 +4,7 @@ class LoadTest
   end
 
   def browse
-
+    begin
     loop do
       anonymous_user_browses_lenders
       anonymous_user_browses_pages_of_lenders
@@ -16,6 +16,10 @@ class LoadTest
       new_user_create_a_loan_request
       new_user_funds_a_loan
     end
+  rescue
+    puts "heroku error"
+    retry while true
+  end
     # loop do
     #   anonymous_user_browses_lenders
     #   anonymous_user_browses_lenders_on_multiple_pages

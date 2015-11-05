@@ -2,12 +2,12 @@ unless Rails.env.production? # ~> NameError: uninitialized constant Rails
   require 'capybara/poltergeist'
 
 
-  desc "Simulate load against Blogger application"
+  desc "Simulate load for Scale Up application"
   task :load_test => :environment do
     # @session = Capybara::Session.new(:poltergeist)
 
-    6.times.map { Thread.new { LoadTest.new.browse } }.map(&:join)
-
+      6.times.map { Thread.new { LoadTest.new.browse } }.map(&:join)
+    
     # loop do
     #   anonymous_user_browses_lenders
     #   anonymous_user_browses_pages_of_lenders
