@@ -1,5 +1,5 @@
 class LendersController < ApplicationController
-  before_action :set_lender, only: [:show]
+  before_action :set_lender && :set_projects, only: [:show]
 
   def new
     @user = User.new
@@ -33,6 +33,11 @@ class LendersController < ApplicationController
 
   def set_lender
     @lender = User.find(params[:id])
+
+  end
+
+  def set_projects
+    @projects = User.joins(:loan_requests).where(loan_requests: {user_id: params[:id]})
   end
 
   def current_lender?

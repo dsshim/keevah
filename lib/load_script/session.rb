@@ -12,8 +12,9 @@ module LoadScript
     include Capybara::DSL
     attr_reader :host
     def initialize(host = nil)
+
       Capybara.default_driver = :poltergeist
-      @host = host || "http://scale-up-performance.herokuapp.com"
+      @host = host || "http://localhost:3000"
     end
 
     def logger
@@ -21,7 +22,7 @@ module LoadScript
     end
 
     def session
-      @session ||= Capybara::Session.new(:poltergeist)
+      @session ||= Capybara::Session.new(:poltergeist, js_errors: false)
     end
 
     def run
