@@ -6,10 +6,10 @@ class ApplicationController < ActionController::Base
     rescue_from ActiveRecord::RecordNotFound,
                 ActionController::RoutingError,
                 ActionController::UnknownController,
-                ActionController::UnknownAction,
+                # ActionController::UnknownAction,
                 ActionController::MethodNotAllowed do |exception|
 
-      
+
 
       redirect_to "/500"
     end
