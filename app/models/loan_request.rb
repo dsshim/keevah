@@ -91,6 +91,7 @@ class LoanRequest < ActiveRecord::Base
     end
   end
 
+
   # def self.cached_single_category(id)
   #   Rails.cache.fetch("single_category") do
   #     joins(:categories).where(categories: {id: id})
