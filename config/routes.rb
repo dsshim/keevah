@@ -32,9 +32,9 @@ Rails.application.routes.draw do
 
 
 
-  get "/404", to: "errors#not_found"
-  get "/422", to: "errors#server_error"
-  get "/500", to: "errors#server_error"
+  %w( 404 422 500 ).each do |code|
+  get code, :to => "errors#show", :code => code
+end
 
   get "*path", to: "errors#not_found", code: 404
 

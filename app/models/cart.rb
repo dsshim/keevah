@@ -13,9 +13,7 @@ class Cart
   def cart_items_and_amount
 
     ids = cart_items.keys
-    amounts = cart_items.values
     LoanRequest.find(ids)
-    # lrs.zip(amounts).to_h
 
   end
 

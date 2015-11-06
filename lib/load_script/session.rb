@@ -13,7 +13,7 @@ module LoadScript
     def initialize(host = nil)
 
       Capybara.default_driver = :poltergeist
-      @host = host || "http://localhost:3000"
+      @host = host || "http://scale-up-performance.herokuapp.com"
     end
 
     def logger
@@ -26,13 +26,14 @@ module LoadScript
 
     def run
       while true
-        # begin
+        begin
         run_action(actions.sample)
-        # rescue
-        # puts "heroku error"
-        # retry while true
+        rescue
+        puts "heroku error"
+        retry while true
       end
     end
+  end
 
     def run_action(name)
       benchmarked(name) do
