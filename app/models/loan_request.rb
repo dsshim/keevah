@@ -1,4 +1,5 @@
 class LoanRequest < ActiveRecord::Base
+  # include InvalidatesCache
   validates :title, :description, :amount,
   :requested_by_date, :repayment_begin_date,
   :repayment_rate, :contributed, presence: true
@@ -91,6 +92,12 @@ class LoanRequest < ActiveRecord::Base
     end
   end
 
+  # def self.total_loan_req_count
+  #   Rails.cache.fetch("total_loan_req_count") do
+  #     # all.inject(0) {|total, a| total += a.word_count }
+  #     LoanRequest.all.count
+  #   end
+  # end
 
   # def self.cached_single_category(id)
   #   Rails.cache.fetch("single_category") do
