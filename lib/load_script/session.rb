@@ -26,12 +26,12 @@ module LoadScript
 
     def run
       while true
-        # begin
+        begin
         run_action(actions.sample)
-        # rescue
-        # puts "heroku error"
-        # retry while true
-      # end
+        rescue
+        puts "heroku error"
+        retry while true
+      end
     end
   end
 
@@ -52,7 +52,7 @@ module LoadScript
     end
 
     def actions
-      [:new_user_funds_a_loan]
+      [:browse_loan_requests, :sign_up_as_lender, :anonymous_user_browses_pages_of_lenders, :user_browses_loan_requests, :user_browses_individual_loan_requests, :sign_up_as_borrower, :new_user_create_a_loan_request, :new_user_funds_a_loan, :user_can_browse_all_categories, :user_can_browse_individual_categories]
     end
 
     def log_in(email="demo+horace@jumpstartlab.com", pw="password")
