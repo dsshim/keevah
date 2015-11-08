@@ -52,7 +52,7 @@ module LoadScript
     end
 
     def actions
-      [:browse_loan_requests, :sign_up_as_lender, :anonymous_user_browses_pages_of_lenders, :user_browses_loan_requests, :user_browses_individual_loan_requests, :sign_up_as_borrower, :new_user_create_a_loan_request, :new_user_funds_a_loan, :user_can_browse_all_categories, :user_can_browse_individual_categories]
+      [:new_user_funds_a_loan]
     end
 
     def log_in(email="demo+horace@jumpstartlab.com", pw="password")
@@ -78,7 +78,7 @@ module LoadScript
     end
 
     def new_user_name
-      "#{Faker::Name.name} #{Time.now.to_i}"
+      "#{Faker::Name.name} #{Time.now.to_i} #{rand(1..1000)}"
     end
 
     def new_user_email(name)
@@ -167,7 +167,6 @@ module LoadScript
       session.select 'Agriculture', from: "Category"
       session.fill_in "Amount", with: 10000
       session.click_button "Submit"
-      session.all("a", text: "Details").first.click
 
       puts "new user creates loan request"
     end
@@ -177,10 +176,9 @@ module LoadScript
       session.visit "#{host}/browse"
       session.all("div.pagination a").sample.click
       session.all("a", text: "Contribute #$25").sample.click
-      session.all("a", text: "Contribute #$25").sample.click
       session.click_link("Basket")
       session.click_on("Transfer Funds")
-
+      log_out
 
       puts "new user funds a loan"
     end

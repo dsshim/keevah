@@ -87,7 +87,7 @@ class LoanRequest < ActiveRecord::Base
 
   def self.cached_requests
     Rails.cache.fetch("all_requests") do
-      LoanRequest.all
+      LoanRequest.all.order("created_at DESC")
     end
   end
 

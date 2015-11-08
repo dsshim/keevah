@@ -5,7 +5,7 @@ class CartController < ApplicationController
     @amounts = @current_cart.cart_items.values
     # @lrs = LoanRequest.find(ids)
     # @loan_request_amounts = lrs.zip(@amounts).to_h
-    @users = User.includes(:loan_requests).where(loan_requests: {id: ids})
+    @users = User.joins(:loan_requests).where(loan_requests: {id: ids})
 
   end
 

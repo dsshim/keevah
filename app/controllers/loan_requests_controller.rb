@@ -2,7 +2,7 @@ class LoanRequestsController < ApplicationController
   before_action :set_loan_request, only: [:update, :show]
 
   def index
-    @loan_requests = LoanRequest.cached_requests.paginate(:page => params[:page], :per_page => 30).order('created_at DESC')
+    @loan_requests = LoanRequest.cached_requests.paginate(:page => params[:page], :per_page => 30)
 
     # @loan_requests = LoanRequest.paginate(:page => params[:page], :per_page => 30)
 
