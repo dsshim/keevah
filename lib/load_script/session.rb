@@ -26,12 +26,12 @@ module LoadScript
 
     def run
       while true
-        begin
+        # begin
         run_action(actions.sample)
-        rescue
-        puts "heroku error"
-        retry while true
-      end
+        # rescue
+        # puts "heroku error"
+        # retry while true
+      # end
     end
   end
 
