@@ -144,19 +144,14 @@ module LoadScript
     end
 
     def user_browses_individual_loan_requests
-
-
-      log_in
-
-      session.visit "#{host}/browse"
-
-      session.all("div.pagination a").sample.click
+      user_browses_loan_requests
       session.all("a", text: "About").sample.click
       puts "user browses individual loan requests"
     end
 
     def new_user_create_a_loan_request
       sign_up_as_borrower
+      session.driver.browser.current_url
       session.click_link("Create Loan Request")
       session.fill_in "Title", with: "New Loan"
       session.fill_in "Description", with: "Give me money"
