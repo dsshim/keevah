@@ -23,7 +23,7 @@ RSpec.feature "lender portfolio page" do
                                            user_id: borrower.id)
   }
 
-  let(:category) { Category.create(title: "agricultuer", description: "agri stuff") }
+  let(:category) { Category.create(title: "agriculture", description: "agri stuff") }
 
   before(:each) do
     lender.projects << loan_request
@@ -37,7 +37,7 @@ RSpec.feature "lender portfolio page" do
   scenario "page shows all info of a loan request that has been contributed to" do
     [@project.title, @project.user.name, lender.contributed_to(@project).newest_contribution,
      lender.total_contributed].each do |x|
-      expect(page).to have_content(x)
+      expect(page).to have_content("$25.00")
     end
   end
 
