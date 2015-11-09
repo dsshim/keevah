@@ -1,3 +1,17 @@
-<h3> Sorry!  Internal Server Error<h3>
-<%= link_to "Return to Homepage", root_path %>
-<%= link_to "Return to Browse Loan Requests", loan_requests_path %>
+<div class = "container error-body">
+<div class = "row error-msg">
+  <%= image_tag("not-found.jpg", class: "error-image") %>
+
+</div>
+<div class = "row">
+  <div class = "col-lg-12 text-center error-links">
+    <h1>Sorry, Internal Server Error!</h1>
+<%= link_to "Return to Homepage", root_path, class: "btn btn-small btn-primary" %>
+</div>
+</div>
+<div class = "row">
+  <div class = "col-lg-12 text-center error-links">
+<%= link_to "Return to Browse Loan Requests", loan_requests_path, class: "btn btn-small btn-primary" %>
+</div>
+</div>
+</div>

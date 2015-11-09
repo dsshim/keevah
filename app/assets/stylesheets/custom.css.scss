@@ -2,7 +2,15 @@ $primary-color: #fff;
 $hover-color: #fed136;
 $muted: #777;
 
+.error-image {
+  display: block;
+  margin: 0 auto;
+  margin-top: 5%;
+}
 
+.error-links{
+  font-size: 2em;
+}
 body {
   padding-top: 50px;
 }
