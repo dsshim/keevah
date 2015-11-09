@@ -82,8 +82,7 @@ class LoanRequest < ActiveRecord::Base
   end
 
   def related_projects
-    cat = LoanRequest.find(self.id).categories
-    LoanRequest.all.joins(:categories).where(categories: {id: cat.sample.id}).limit(1000).shuffle.take(4)
+    Category.find_by(title: categories.first.title).loan_requests.take(4)
   end
 
   def self.cached_requests
