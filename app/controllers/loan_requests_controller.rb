@@ -3,9 +3,6 @@ class LoanRequestsController < ApplicationController
 
   def index
     @loan_requests = LoanRequest.order("id DESC").paginate(:page => params[:page], per_page: 15)
-
-    # @loan_requests = LoanRequest.paginate(:page => params[:page], :per_page => 30)
-
   end
 
   def create
@@ -13,6 +10,7 @@ class LoanRequestsController < ApplicationController
 
     if loan_request.save
       Category.find_by(title: params[:loan_request][:category].capitalize).loan_requests << loan_request
+      loan_request.clear_cache_by_id
       flash[:notice] = "Loan Request Created"
       redirect_to(:back)
     else

@@ -7,7 +7,7 @@ module InvalidatesCache
     after_destroy :invalidate_cache
 
     def invalidate_cache
-      Rails.cache.clear
+      Rails.cache.clear("")
     end
   end
 end

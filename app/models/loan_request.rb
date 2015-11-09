@@ -13,6 +13,7 @@ class LoanRequest < ActiveRecord::Base
   enum repayment_rate: %w(monthly weekly)
   before_create :assign_default_image
 
+
   def assign_default_image
     self.image_url = DefaultImages.random if self.image_url.to_s.empty?
   end
@@ -85,22 +86,7 @@ class LoanRequest < ActiveRecord::Base
     Category.find_by(title: categories.first.title).loan_requests.take(4)
   end
 
-  def self.cached_requests
-    Rails.cache.fetch("all_requests") do
-      LoanRequest.all.order("created_at DESC")
-    end
+  def clear_cache_by_id
+    Rails.cache.delete("loan_req_by_cat_id_#{LoanRequest.find(self).categories.first.id}")
   end
-
-  # def self.total_loan_req_count
-  #   Rails.cache.fetch("total_loan_req_count") do
-  #     # all.inject(0) {|total, a| total += a.word_count }
-  #     LoanRequest.all.count
-  #   end
-  # end
-
-  # def self.cached_single_category(id)
-  #   Rails.cache.fetch("single_category") do
-  #     joins(:categories).where(categories: {id: id})
-  #   end
-  # end
 end
