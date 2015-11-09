@@ -10,11 +10,8 @@ class Cart
     @cart_items[loan_request_id] += amount.to_i
   end
 
-  def cart_items_and_amount
-
-    ids = cart_items.keys
-    LoanRequest.find(ids)
-
+  def find_loan_requests
+    LoanRequest.find(cart_items.keys)
   end
 
   def delete_loan_request(loan_request_id)

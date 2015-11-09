@@ -1,15 +1,11 @@
 class CartController < ApplicationController
+# before_action :create_cart, only: [:index]
 
   def index
-    ids = @current_cart.cart_items.keys
-    @amounts = @current_cart.cart_items.values
-    # @lrs = LoanRequest.find(ids)
-    # @loan_request_amounts = lrs.zip(@amounts).to_h
-    @users = User.joins(:loan_requests).where(loan_requests: {id: ids})
-
+    @current_cart
   end
 
-  def create  
+  def create
 
     @current_cart.add_item(params[:loan_request], params[:amount])
     session[:cart] = @current_cart.cart_items

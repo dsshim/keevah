@@ -23,16 +23,16 @@
 <tbody>
   <% if !@current_cart.cart_items.empty? %>
 
-    <% @current_cart.cart_items_and_amount.each_with_index do |loan_request, index| %>
+    <% @current_cart.find_loan_requests.each_with_index do |loan_request, index| %>
 
       <tr>
         <td></td>
         <td><%= loan_request.title %></td>
-        <td><%= @users[index].name.capitalize %></td>
+        <td><%= find_users[index].name.capitalize %></td>
         <td><%= loan_request.repayment_begin %></td>
         <td><%= loan_request.repayment_rate.capitalize %></td>
         <td><%= number_to_currency(loan_request.funding_remaining) %></td>
-        <td><%= number_to_currency(@amounts[index], precision: 2) %></td>
+        <td><%= number_to_currency(find_amounts[index], precision: 2) %></td>
         <div class="add25">
           <td><%= button_to "$25", {controller: "cart", action: "update", loan_request_id: loan_request.id, quantity: "increase" } , method: "put", class: "btn-small btn-success" %></td>
         </div>

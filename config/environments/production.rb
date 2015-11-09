@@ -8,7 +8,7 @@ Rails.application.configure do
                      :socket_failure_delay => 0.2
                     }
 
-  config.serve_static_assets = true
+  # config.serve_static_assets = true
   config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect'
   config.assets.compile = true
 
