@@ -6,7 +6,7 @@ class CategoriesController < ApplicationController
   end
 
   def show
-    @loan_requests = cached_categories.paginate(page: params[:page], per_page: 15)
+    @loan_requests = @category.loan_requests.paginate(page: params[:page], per_page: 15)
     # total_lrs = LoanRequest.joins(:categories).where(categories: {id: @category.id}).count
     # @loan_requests = LoanRequest.cached_single_category(@category.id).paginate(:page => params[:page], :per_page => 15)
     # @loan_requests = LoanRequest.joins(:categories).where(categories: {id: @category.id}).paginate(page: params[:page], per_page: 15)
